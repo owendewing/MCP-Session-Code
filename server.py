@@ -3,6 +3,7 @@ from mcp.server.fastmcp import FastMCP
 from tavily import TavilyClient
 import os
 from dice_roller import DiceRoller
+from weather_tool import get_weather
 
 load_dotenv()
 
@@ -21,13 +22,15 @@ def roll_dice(notation: str, num_rolls: int = 1) -> str:
     roller = DiceRoller(notation, num_rolls)
     return str(roller)
 
-"""
-Add your own tool here, and then use it through Cursor!
-"""
 @mcp.tool()
-def YOUR_TOOL_NAME(query: str) -> str:
-    """YOUR_TOOL_DESCRIPTION"""
-    return "YOUR_TOOL_RESPONSE"
+def get_current_weather(city: str, country_code: str = "") -> str:
+    """Get current weather information for a city
+    
+    Args:
+        city: City name (e.g., "London", "New York", "Tokyo")
+        country_code: Optional country code (e.g., "US", "GB", "JP")
+    """
+    return get_weather(city, country_code)
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
